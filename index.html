@@ -3,230 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DANIELWEALTH | Modern Wealth & Private Banking</title>
+    <title>DANIELWEALTH | Private Banking & Institutional Wealth</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         navy: {
                             800: '#0B132B',
-                            900: '#0B1120',
-                            950: '#050811',
+                            900: '#070C1B',
+                            950: '#03050C',
                         },
                         gold: {
+                            300: '#FDE047',
                             400: '#F3C663',
                             500: '#D4AF37',
                             600: '#AA820A',
+                            700: '#856404',
                         },
-                        tealAccent: '#00E5FF'
+                        cyanAccent: '#00F0FF',
+                        emeraldAccent: '#00FF9D'
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                         serif: ['"Playfair Display"', 'serif'],
+                        signature: ['"Dancing Script"', 'cursive']
                     }
                 }
             }
         }
     </script>
     <style>
+        /* Custom Keyframes & Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.5deg); }
+        }
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(14px) rotate(-1.5deg); }
+        }
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.08); }
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-float { animation: floatSlow 6s ease-in-out infinite; }
+        .animate-float-reverse { animation: floatReverse 7s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulseGlow 5s ease-in-out infinite; }
+        .gradient-animate {
+            background-size: 200% 200%;
+            animation: gradientMove 8s ease infinite;
+        }
+
+        /* Glassmorphism Classes */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(11, 19, 43, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
         }
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
         .gold-gradient-text {
-            background: linear-gradient(135deg, #FFF099 0%, #D4AF37 50%, #997A15 100%);
+            background: linear-gradient(135deg, #FFF5C0 0%, #E2BA4B 50%, #997A15 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .gold-button-gradient {
-            background: linear-gradient(135deg, #E6C251 0%, #C49D28 100%);
+        .gold-button {
+            background: linear-gradient(135deg, #F5D365 0%, #D4AF37 50%, #B89222 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .gold-button-gradient:hover {
-            background: linear-gradient(135deg, #F0CE62 0%, #D4AF37 100%);
+        .gold-button::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .gold-button:hover::after {
+            left: 100%;
+        }
+
+        /* Card Shimmer Sweep */
+        .shimmer-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(255, 240, 180, 0.12) 50%,
+                transparent 55%
+            );
+            transform: rotate(30deg) translateX(-100%);
+            transition: transform 0.8s ease-in-out;
+        }
+        .shimmer-card:hover::before {
+            transform: rotate(30deg) translateX(100%);
+        }
+
+        /* Grid pattern background */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Dynamic 3D Card Hover Perspective */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-3d {
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        .perspective-1000:hover .card-3d {
+            transform: rotateY(-8deg) rotateX(6deg) translateZ(10px);
+            box-shadow: -20px 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Range Slider Custom Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            height: 8px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #D4AF37;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
+            border: 2px solid #FFFFFF;
         }
     </style>
 </head>
-<body class="bg-navy-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-gold-500 selection:text-navy-950">
+<body class="bg-navy-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-gold-500 selection:text-navy-950 transition-colors duration-300">
 
-    <!-- Fictional Disclaimer Banner -->
-    <div class="bg-gradient-to-r from-amber-600 via-gold-500 to-amber-600 text-navy-950 text-xs sm:text-sm font-semibold py-2 px-4 text-center sticky top-0 z-50 shadow-md">
+    <!-- Interactive Top Announcement / Disclaimer Header -->
+    <div class="bg-gradient-to-r from-amber-700 via-gold-500 to-amber-700 text-navy-950 text-xs sm:text-sm font-semibold py-2 px-4 text-center sticky top-0 z-50 shadow-xl border-b border-gold-300/30">
         <div class="max-w-7xl mx-auto flex items-center justify-center gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
-            <span>DEMONSTRATION ONLY: DANIELWEALTH is a fictional bank conceptual mockup created for preview purposes.</span>
+            <i data-lucide="shield-alert" class="w-4 h-4 flex-shrink-0 animate-bounce"></i>
+            <span>DEMONSTRATION MOCKUP: DANIELWEALTH is a fictional private banking design concept.</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 opacity-70 hover:opacity-100 p-0.5" aria-label="Dismiss banner">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="sticky top-[33px] z-40 bg-navy-950/80 backdrop-blur-md border-b border-slate-800/60 transition-all">
+    <!-- Navigation Bar -->
+    <header class="sticky top-[33px] z-40 bg-navy-950/80 backdrop-blur-xl border-b border-slate-800/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-navy-950 font-bold text-xl shadow-lg shadow-gold-500/10 group-hover:scale-105 transition-transform">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-gold-300 via-gold-500 to-gold-700 flex items-center justify-center text-navy-950 font-black text-xl shadow-lg shadow-gold-500/20 group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300">
                     DW
                 </div>
                 <div class="flex flex-col">
                     <span class="font-bold text-xl tracking-wider text-white font-serif">DANIEL<span class="gold-gradient-text">WEALTH</span></span>
-                    <span class="text-[9px] tracking-[0.2em] text-slate-400 uppercase -mt-1">Private Banking</span>
+                    <span class="text-[9px] tracking-[0.25em] text-slate-400 uppercase -mt-1 font-semibold">Private Banking</span>
                 </div>
             </a>
 
-            <!-- Desktop Nav Links -->
+            <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-                <a href="#wealth" class="hover:text-gold-400 transition-colors">Private Wealth</a>
-                <a href="#solutions" class="hover:text-gold-400 transition-colors">Smart Solutions</a>
-                <a href="#dashboard" class="hover:text-gold-400 transition-colors">Digital Platform</a>
-                <a href="#security" class="hover:text-gold-400 transition-colors">Security</a>
+                <a href="#wealth" class="hover:text-gold-400 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold-400 hover:after:w-full after:transition-all">Wealth Management</a>
+                <a href="#calculator" class="hover:text-gold-400 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold-400 hover:after:w-full after:transition-all">Growth Projection</a>
+                <a href="#leadership" class="hover:text-gold-400 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold-400 hover:after:w-full after:transition-all">Founder Spotlight</a>
+                <a href="#solutions" class="hover:text-gold-400 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold-400 hover:after:w-full after:transition-all">Services</a>
             </nav>
 
-            <!-- Header Action Buttons -->
+            <!-- Actions -->
             <div class="hidden md:flex items-center gap-4">
-                <button onclick="toggleModal('login-modal')" class="text-sm font-semibold text-slate-200 hover:text-gold-400 px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
-                    <i data-lucide="lock" class="w-4 h-4"></i> Secure Login
+                <button onclick="toggleModal('login-modal')" class="text-sm font-semibold text-slate-200 hover:text-gold-400 px-4 py-2 rounded-xl border border-slate-800 hover:border-gold-500/40 transition-all flex items-center gap-2 bg-navy-900/50">
+                    <i data-lucide="lock" class="w-4 h-4 text-gold-400"></i> Secure Portal
                 </button>
-                <a href="#dashboard" class="gold-button-gradient text-navy-950 font-bold text-sm px-5 py-2.5 rounded-lg shadow-lg shadow-gold-500/20 hover:shadow-gold-500/30 transition-all transform hover:-translate-y-0.5">
-                    Become a Client
-                </a>
+                <button onclick="toggleModal('consult-modal')" class="gold-button text-navy-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-gold-500/20 hover:shadow-gold-500/40 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i> Become a Client
+                </button>
             </div>
 
-            <!-- Mobile Menu Button -->
-            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-white p-2" aria-label="Toggle Navigation">
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg bg-navy-900 border border-slate-800" aria-label="Toggle Navigation">
                 <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
 
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-b border-slate-800 px-6 py-6 space-y-4">
-            <a href="#wealth" class="block text-slate-200 hover:text-gold-400 py-2">Private Wealth</a>
-            <a href="#solutions" class="block text-slate-200 hover:text-gold-400 py-2">Smart Solutions</a>
-            <a href="#dashboard" class="block text-slate-200 hover:text-gold-400 py-2">Digital Platform</a>
-            <a href="#security" class="block text-slate-200 hover:text-gold-400 py-2">Security</a>
-            <div class="pt-4 border-t border-slate-800 flex flex-col gap-3">
-                <button onclick="toggleModal('login-modal')" class="w-full text-center text-slate-200 font-semibold py-2.5 border border-slate-700 rounded-lg">
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-900/95 border-b border-slate-800 px-6 py-6 space-y-4 backdrop-blur-2xl">
+            <a href="#wealth" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800/50">Wealth Management</a>
+            <a href="#calculator" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800/50">Growth Calculator</a>
+            <a href="#leadership" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800/50">Leadership</a>
+            <a href="#solutions" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800/50">Services</a>
+            <div class="pt-4 flex flex-col gap-3">
+                <button onclick="toggleMobileMenu(); toggleModal('login-modal');" class="w-full text-center text-slate-200 font-semibold py-3 border border-slate-700 rounded-xl bg-navy-950">
                     Client Login
                 </button>
-                <a href="#dashboard" class="w-full text-center gold-button-gradient text-navy-950 font-bold py-2.5 rounded-lg">
-                    Open an Account
-                </a>
+                <button onclick="toggleMobileMenu(); toggleModal('consult-modal');" class="w-full text-center gold-button text-navy-950 font-bold py-3 rounded-xl">
+                    Request Wealth Advisory
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
-        <!-- Background Glows -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- Hero Section with Dynamic Mesh Background and 3D Card Preview -->
+    <section class="relative pt-12 pb-28 lg:pt-20 lg:pb-36 overflow-hidden bg-grid-pattern">
+        <!-- Animated Background Orbs -->
+        <div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[150px] pointer-events-none animate-pulse-glow"></div>
+        <div class="absolute top-1/3 right-10 w-[500px] h-[500px] bg-cyanAccent/10 rounded-full blur-[160px] pointer-events-none animate-float"></div>
+        <div class="absolute bottom-10 left-1/3 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none animate-float-reverse"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-                <!-- Hero Left Column -->
+                <!-- Left Content -->
                 <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-gold-500/30 text-gold-400 text-xs font-semibold tracking-wide">
-                        <span class="w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
-                        Next-Generation Private Banking
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-gold-500/30 text-gold-400 text-xs font-semibold tracking-wide shadow-inner">
+                        <span class="w-2 h-2 rounded-full bg-emeraldAccent animate-ping"></span>
+                        Bespoke Financial Architecture & Global Banking
                     </div>
                     
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] font-serif">
-                        Architecting Your <br class="hidden sm:inline">
-                        <span class="gold-gradient-text">Financial Legacy</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12] font-serif">
+                        Mastery in Wealth. <br class="hidden sm:inline">
+                        <span class="gold-gradient-text">Precision in Legacy.</span>
                     </h1>
 
-                    <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                        Experience bespoke wealth management, intelligent automated portfolios, and premier global banking services tailored exclusively for high-net-worth individuals and visionaries.
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Under the leadership of Founder & CEO <strong class="text-white font-semibold">Daniel Bestine</strong>, DANIELWEALTH merges centuries-grade fiduciary discretion with hyper-intelligent AI asset management.
                     </p>
 
-                    <!-- Hero Call to Actions -->
+                    <!-- Interactive CTAs -->
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                        <a href="#dashboard" class="w-full sm:w-auto gold-button-gradient text-navy-950 font-bold px-8 py-4 rounded-xl shadow-xl shadow-gold-500/20 hover:shadow-gold-500/30 transition-all flex items-center justify-center gap-2 text-base">
-                            Explore Client Platform <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                        </a>
-                        <button onclick="toggleModal('login-modal')" class="w-full sm:w-auto glass-panel text-slate-200 hover:text-white hover:bg-white/10 px-8 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-base border border-slate-700/60">
-                            Access Portal
+                        <button onclick="toggleModal('consult-modal')" class="w-full sm:w-auto gold-button text-navy-950 font-bold px-8 py-4 rounded-2xl shadow-2xl shadow-gold-500/25 hover:shadow-gold-500/40 transition-all flex items-center justify-center gap-3 text-base">
+                            Schedule Private Consultation <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </button>
+                        <a href="#calculator" class="w-full sm:w-auto glass-panel text-slate-200 hover:text-white hover:bg-white/10 px-8 py-4 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2 text-base border border-slate-700/80">
+                            <i data-lucide="calculator" class="w-5 h-5 text-gold-400"></i> Project Growth
+                        </a>
                     </div>
 
-                    <!-- Trust Stats -->
-                    <div class="pt-8 grid grid-cols-3 gap-6 border-t border-slate-800/80 max-w-xl mx-auto lg:mx-0">
+                    <!-- Live Counter Stats Section -->
+                    <div class="pt-10 grid grid-cols-3 gap-6 border-t border-slate-800/80 max-w-xl mx-auto lg:mx-0">
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold text-white font-serif">$24B+</div>
-                            <div class="text-xs text-slate-400 mt-1">Assets Managed</div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white font-serif tracking-tight flex items-center justify-center lg:justify-start">
+                                $<span class="counter" data-target="42">0</span>.<span class="counter" data-target="8">0</span>B+
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1">Assets Under Management</div>
                         </div>
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold text-white font-serif">99.99%</div>
-                            <div class="text-xs text-slate-400 mt-1">Platform Uptime</div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white font-serif tracking-tight flex items-center justify-center lg:justify-start">
+                                <span class="counter" data-target="150">0</span>K+
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1">Global HNW Clients</div>
                         </div>
                         <div>
-                            <div class="text-2xl sm:text-3xl font-bold text-white font-serif">140+</div>
-                            <div class="text-xs text-slate-400 mt-1">Global Markets</div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white font-serif tracking-tight flex items-center justify-center lg:justify-start">
+                                <span class="counter" data-target="99">0</span>.<span class="counter" data-target="99">0</span>%
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1">Fiduciary Precision</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hero Right Column: Card Showcase Graphic -->
-                <div class="lg:col-span-5 relative flex justify-center">
+                <!-- Right 3D Interactive Metal Card & Live Card Preview -->
+                <div class="lg:col-span-5 relative perspective-1000 flex justify-center">
                     <div class="relative w-full max-w-md">
-                        <!-- Premium Metal Card Mockup -->
-                        <div class="w-full h-56 sm:h-64 rounded-2xl glass-card p-6 flex flex-col justify-between shadow-2xl relative z-20 border border-gold-500/30 transform hover:rotate-1 transition-transform duration-500">
+                        <!-- Dynamic Shimmer Black & Gold Card -->
+                        <div id="interactive-card" class="card-3d shimmer-card w-full h-64 sm:h-72 rounded-3xl glass-card p-7 flex flex-col justify-between relative z-20 border border-gold-500/40">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <span class="text-xs text-gold-400 font-semibold tracking-widest uppercase">BLACK EDITION</span>
-                                    <h3 class="text-xl font-bold text-white font-serif tracking-wide mt-1">DANIELWEALTH</h3>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-emeraldAccent animate-ping"></span>
+                                        <span class="text-[10px] text-gold-400 font-bold tracking-widest uppercase">BLACK RESERVE EXECUTIVE</span>
+                                    </div>
+                                    <h3 class="text-2xl font-black text-white font-serif tracking-wider mt-1">DANIELWEALTH</h3>
                                 </div>
-                                <i data-lucide="wifi" class="w-6 h-6 text-slate-400 rotate-90"></i>
+                                <i data-lucide="wifi" class="w-7 h-7 text-gold-400 rotate-90"></i>
                             </div>
 
-                            <div class="my-auto pt-4">
-                                <div class="w-12 h-9 bg-gradient-to-r from-amber-200 to-yellow-400 rounded-md opacity-90 shadow-inner flex items-center justify-center">
-                                    <div class="w-8 h-6 border border-navy-950/40 rounded-sm"></div>
+                            <!-- EMV Chip with micro animation -->
+                            <div class="my-auto pt-2 flex items-center justify-between">
+                                <div class="w-13 h-10 bg-gradient-to-tr from-amber-300 via-yellow-500 to-amber-200 rounded-lg shadow-md flex items-center justify-center border border-yellow-200/50 p-1">
+                                    <div class="w-full h-full border border-navy-950/40 rounded flex items-center justify-center">
+                                        <div class="w-4 h-4 rounded-full bg-navy-950/20"></div>
+                                    </div>
                                 </div>
+                                <button onclick="toggleBalanceVisibility()" class="text-xs text-slate-300 hover:text-white bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/80 flex items-center gap-1.5 backdrop-blur-md">
+                                    <i id="eye-icon" data-lucide="eye" class="w-3.5 h-3.5 text-gold-400"></i>
+                                    <span id="balance-toggle-text">Hide Balance</span>
+                                </button>
                             </div>
 
                             <div>
-                                <div class="font-mono text-lg sm:text-xl tracking-widest text-slate-200 mb-2">
-                                    •••• •••• •••• 8892
+                                <div id="card-balance-display" class="font-mono text-xl sm:text-2xl font-bold tracking-widest text-white mb-3 text-shadow">
+                                    $8,490,250.00 <span class="text-xs font-normal text-emeraldAccent">USD</span>
                                 </div>
-                                <div class="flex justify-between items-end text-xs text-slate-400">
+                                <div class="flex justify-between items-end text-xs text-slate-300">
                                     <div>
-                                        <div class="text-[9px] uppercase tracking-wider text-slate-500">Card Holder</div>
-                                        <div class="font-semibold text-slate-200">DANIEL V. ARCHER</div>
+                                        <div class="text-[9px] uppercase tracking-wider text-slate-400">Cardholder</div>
+                                        <div class="font-bold text-white tracking-wide">DANIEL BESTINE</div>
                                     </div>
                                     <div>
-                                        <div class="text-[9px] uppercase tracking-wider text-slate-500">Expires</div>
-                                        <div class="font-semibold text-slate-200">12/28</div>
+                                        <div class="text-[9px] uppercase tracking-wider text-slate-400">MEMBER SINCE</div>
+                                        <div class="font-bold text-gold-400">2018</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Secondary Glass Card behind -->
-                        <div class="absolute -bottom-8 -right-4 sm:-right-6 w-full h-56 bg-slate-900/90 rounded-2xl p-6 border border-slate-800 shadow-xl z-10 hidden sm:flex flex-col justify-between backdrop-blur-md">
-                            <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800 pb-3">
-                                <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Live Portfolio Index</span>
-                                <span class="text-emerald-400 font-semibold">+14.2% YTD</span>
+                        <!-- Secondary floating card behind -->
+                        <div class="absolute -bottom-10 -right-4 sm:-right-8 w-full h-60 bg-navy-900/90 rounded-3xl p-6 border border-slate-800 shadow-2xl z-10 hidden sm:flex flex-col justify-between backdrop-blur-xl animate-float">
+                            <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800/80 pb-3">
+                                <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gold-400"></span> Live Yield Portfolio</span>
+                                <span class="text-emeraldAccent font-bold text-sm">+18.6% YTD</span>
                             </div>
-                            <div class="space-y-2 my-2">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-300">Global Tech Equity</span>
-                                    <span class="font-semibold text-white">$1,420,500</span>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-300">Global Tech & AI Fund</span>
+                                    <span class="font-bold text-white">$4,210,000</span>
                                 </div>
-                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-gold-500 h-full w-[75%] rounded-full"></div>
+                                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-gold-500 to-amber-300 h-full w-[82%] rounded-full"></div>
+                                </div>
+                                <div class="flex justify-between text-xs pt-1">
+                                    <span class="text-slate-300">Real Estate & Private Equity</span>
+                                    <span class="font-bold text-white">$2,100,000</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-cyanAccent to-blue-500 h-full w-[65%] rounded-full"></div>
                                 </div>
                             </div>
                         </div>
@@ -236,217 +376,253 @@
         </div>
     </section>
 
-    <!-- Key Features Section -->
-    <section id="solutions" class="py-20 bg-navy-900/50 border-y border-slate-800/80 relative">
+    <!-- Founder & CEO Spotlight Section (Daniel Bestine) -->
+    <section id="leadership" class="py-24 bg-navy-900/80 border-y border-slate-800/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-gold-500/30 relative overflow-hidden shadow-2xl">
+                <!-- Glowing corner accent -->
+                <div class="absolute -top-20 -right-20 w-80 h-80 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
+                    <!-- Founder Portrait Badge -->
+                    <div class="lg:col-span-4 flex flex-col items-center text-center">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-gold-400 to-amber-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-navy-950 p-2 overflow-hidden border-2 border-gold-500/50">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600" alt="Daniel Bestine - Founder & CEO" class="w-full h-full object-cover rounded-full filter grayscale hover:grayscale-0 transition-all duration-700">
+                            </div>
+                            <div class="absolute bottom-2 right-2 bg-navy-950 p-2.5 rounded-full border border-gold-400 text-gold-400 shadow-xl">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white font-serif mt-5">Daniel Bestine</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold-400 font-semibold mt-1">Founder & Chief Executive Officer</p>
+                    </div>
+
+                    <!-- Quote & Vision -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-gold-500/10 text-gold-400 text-xs font-semibold uppercase tracking-wider">
+                            Executive Leadership
+                        </div>
+                        <blockquote class="text-xl sm:text-2xl font-serif text-slate-100 italic leading-relaxed">
+                            "At DANIELWEALTH, our imperative is simple: to combine unyielding confidentiality and institutional security with algorithmic foresight. True wealth stewardship is not merely about preserving capital — it is about engineering timeless legacy."
+                        </blockquote>
+                        <div class="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                            <div>
+                                <span class="font-signature text-3xl text-gold-400 block -mb-2">Daniel Bestine</span>
+                                <span class="text-xs text-slate-400">Founder & Managing Partner</span>
+                            </div>
+                            <button onclick="toggleModal('consult-modal')" class="text-xs text-gold-400 hover:text-white font-semibold underline flex items-center gap-1">
+                                Book Direct CEO Advisory Consultation <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Wealth Growth Calculator Section -->
+    <section id="calculator" class="py-24 relative overflow-hidden bg-navy-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-xs uppercase tracking-[0.2em] font-bold text-gold-400 mb-3">Superior Banking Capabilities</h2>
-                <p class="text-3xl sm:text-4xl font-bold text-white font-serif">Engineered for Sophisticated Investors</p>
+                <span class="text-xs uppercase tracking-[0.2em] font-bold text-gold-400 mb-2 block">Interactive Projection Tool</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-serif">Compound Interest & Wealth Engine</h2>
+                <p class="text-slate-400 mt-3 text-sm">Simulate your portfolio trajectory with DANIELWEALTH's multi-asset strategy.</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="glass-panel p-8 rounded-2xl border border-slate-800 hover:border-gold-500/40 transition-all group">
-                    <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 transition-transform">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                <!-- Calculator Inputs -->
+                <div class="lg:col-span-5 bg-navy-900/90 p-8 rounded-3xl border border-slate-800 space-y-6 shadow-xl">
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-2">
+                            <span class="text-slate-300">Initial Capital</span>
+                            <span class="text-gold-400 font-mono" id="calc-initial-val">$500,000</span>
+                        </div>
+                        <input type="range" id="calc-initial" min="50000" max="5000000" step="50000" value="500000" class="w-full">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-2">
+                            <span class="text-slate-300">Monthly Contribution</span>
+                            <span class="text-gold-400 font-mono" id="calc-monthly-val">$10,000</span>
+                        </div>
+                        <input type="range" id="calc-monthly" min="1000" max="100000" step="1000" value="10000" class="w-full">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-2">
+                            <span class="text-slate-300">Investment Horizon (Years)</span>
+                            <span class="text-gold-400 font-mono" id="calc-years-val">15 Years</span>
+                        </div>
+                        <input type="range" id="calc-years" min="1" max="30" step="1" value="15" class="w-full">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm font-semibold mb-2">
+                            <span class="text-slate-300">Expected Annual Return Strategy</span>
+                            <span class="text-emeraldAccent font-mono" id="calc-return-val">12% Strategy</span>
+                        </div>
+                        <select id="calc-strategy" class="w-full bg-navy-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                            <option value="0.08">Balanced Capital Preservation (8% APY)</option>
+                            <option value="0.12" selected>DANIELWEALTH Dynamic Growth (12% APY)</option>
+                            <option value="0.16">Aggressive Private Equity & Tech (16% APY)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Live Dynamic Chart Output -->
+                <div class="lg:col-span-7 bg-navy-900/90 p-8 rounded-3xl border border-slate-800 space-y-6 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs text-slate-400 uppercase tracking-widest block mb-1">Projected Total Wealth</span>
+                        <div class="text-4xl sm:text-5xl font-extrabold text-white font-serif" id="calc-total-result">$3,952,140</div>
+                        <p class="text-xs text-emeraldAccent mt-2 flex items-center gap-1">
+                            <i data-lucide="trending-up" class="w-4 h-4"></i> Includes estimated compound returns over time.
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Animated SVG Chart -->
+                    <div class="w-full h-56 relative flex items-end pt-8">
+                        <svg class="w-full h-full overflow-visible" viewBox="0 0 500 200" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.5"/>
+                                    <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path id="chart-area" d="M0,200 L0,150 Q250,80 500,20 L500,200 Z" fill="url(#chartGrad)"/>
+                            <path id="chart-line" d="M0,150 Q250,80 500,20" fill="none" stroke="#D4AF37" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 border-t border-slate-800 pt-4">
+                        <div>
+                            <span class="text-xs text-slate-400">Total Capital Contributed</span>
+                            <div class="text-lg font-bold text-slate-200" id="calc-contributed">$2,300,000</div>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400">Compound Earnings</span>
+                            <div class="text-lg font-bold text-gold-400" id="calc-interest">$1,652,140</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wealth Management Solutions Tabs -->
+    <section id="solutions" class="py-24 bg-navy-900/50 border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] font-bold text-gold-400 mb-2 block">Institutional Excellence</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-serif">Comprehensive Private Services</h2>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button onclick="switchTab('tab-private')" id="btn-tab-private" class="tab-btn active px-6 py-3 rounded-2xl text-sm font-bold transition-all bg-gold-500 text-navy-950 shadow-lg">
+                    Private Banking
+                </button>
+                <button onclick="switchTab('tab-family')" id="btn-tab-family" class="tab-btn px-6 py-3 rounded-2xl text-sm font-bold transition-all bg-navy-900 text-slate-300 border border-slate-800 hover:border-gold-500/40">
+                    Family Office
+                </button>
+                <button onclick="switchTab('tab-crypto')" id="btn-tab-crypto" class="tab-btn px-6 py-3 rounded-2xl text-sm font-bold transition-all bg-navy-900 text-slate-300 border border-slate-800 hover:border-gold-500/40">
+                    Digital & Alternative Assets
+                </button>
+            </div>
+
+            <!-- Tab Content 1 -->
+            <div id="tab-private" class="tab-content grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="vault" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Multi-Currency Global Accounts</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Hold, send, and settle in over 40 global fiat currencies with zero liquidity latency and direct access to international clearing houses.
+                    </p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="credit-card" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Black Reserve Metal Card</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Unlimited spending limits, VIP airport private jet terminal clearance, and dedicated 24/7 global travel concierge support.
+                    </p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
                         <i data-lucide="shield-check" class="w-7 h-7"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Institutional Security</h3>
+                    <h3 class="text-xl font-bold text-white mb-3">Sovereign Asset Vaulting</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
-                        Multi-layer military grade encryption, biometric authentication, and end-to-end asset vaulting guarantee your wealth remains fortress-protected.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="glass-panel p-8 rounded-2xl border border-slate-800 hover:border-gold-500/40 transition-all group">
-                    <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="trending-up" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">AI Smart Portfolio</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Algorithmic rebalancing and quantitative investment strategies optimized in real-time to align with your tailored risk profile and goals.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="glass-panel p-8 rounded-2xl border border-slate-800 hover:border-gold-500/40 transition-all group">
-                    <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="headphone-off" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Dedicated Concierge</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Direct 24/7 access to your personal Private Wealth Advisor and concierge team. No queues, automated phone trees, or delays.
+                        Physical bullion and precious metals stored in ultra-secure, insured underground vaults in Zurich, Singapore, and London.
                     </p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Interactive Dashboard Preview Section -->
-    <section id="dashboard" class="py-24 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <h2 class="text-xs uppercase tracking-[0.2em] font-bold text-gold-400 mb-3">Digital Control Center</h2>
-                <p class="text-3xl sm:text-4xl font-bold text-white font-serif">Intuitive. Instant. Omnipresent.</p>
-                <p class="text-slate-400 mt-4 text-sm">Interactive Preview — Explore the DANIELWEALTH client interface below.</p>
-            </div>
-
-            <!-- Mock Dashboard Frame -->
-            <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden shadow-2xl bg-navy-900/80">
-                <!-- Dashboard Top Navigation Bar -->
-                <div class="bg-navy-950 px-6 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                        <span class="text-xs text-slate-500 font-mono ml-2">portal.danielwealth.com/dashboard</span>
+            <!-- Tab Content 2 -->
+            <div id="tab-family" class="tab-content hidden grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="users" class="w-7 h-7"></i>
                     </div>
-                    <div class="flex items-center gap-4 text-xs">
-                        <span class="text-slate-400">Welcome, <strong class="text-white">Alexander Daniel</strong></span>
-                        <div class="w-8 h-8 rounded-full bg-gold-500/20 text-gold-400 font-bold flex items-center justify-center border border-gold-500/40">
-                            AD
-                        </div>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Generational Wealth Succession</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Structured trusts, philanthropic foundations, and estate planning tailored to preserve wealth across multiple generations seamlessly.
+                    </p>
                 </div>
-
-                <!-- Dashboard Content Area -->
-                <div class="p-6 lg:p-8 space-y-8">
-                    <!-- Top Balance Cards -->
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-navy-950 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400">Total Net Worth</span>
-                            <div class="text-2xl font-bold text-white font-serif mt-1">$4,852,190.00</div>
-                            <span class="text-xs text-emerald-400 flex items-center gap-1 mt-2">
-                                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i> +2.4% this month
-                            </span>
-                        </div>
-                        <div class="bg-navy-950 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400">Liquid Savings</span>
-                            <div class="text-2xl font-bold text-white font-serif mt-1">$1,120,400.50</div>
-                            <span class="text-xs text-slate-400 mt-2 block">4.85% APY Yield</span>
-                        </div>
-                        <div class="bg-navy-950 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400">Investment Portfolio</span>
-                            <div class="text-2xl font-bold text-white font-serif mt-1">$3,481,789.50</div>
-                            <span class="text-xs text-emerald-400 flex items-center gap-1 mt-2">
-                                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i> +12.8% YTD
-                            </span>
-                        </div>
-                        <div class="bg-navy-950 p-5 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400">Credit Facility</span>
-                            <div class="text-2xl font-bold text-white font-serif mt-1">$250,000.00</div>
-                            <span class="text-xs text-slate-400 mt-2 block">Available Liquidity</span>
-                        </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="briefcase" class="w-7 h-7"></i>
                     </div>
-
-                    <!-- Main Grid: Transfers & Activity -->
-                    <div class="grid lg:grid-cols-3 gap-8">
-                        <!-- Quick Transfer Interactive Widget -->
-                        <div class="bg-navy-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
-                            <div>
-                                <h4 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-                                    <i data-lucide="send" class="w-4 h-4 text-gold-400"></i> Instant Wealth Transfer
-                                </h4>
-                                <form id="transfer-form" onsubmit="handleTransfer(event)" class="space-y-4">
-                                    <div>
-                                        <label class="block text-xs text-slate-400 mb-1">Recipient Account</label>
-                                        <input type="text" required placeholder="DW-9082-XXXX" class="w-full bg-navy-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs text-slate-400 mb-1">Amount ($)</label>
-                                        <input type="number" required min="1" placeholder="50,000" class="w-full bg-navy-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs text-slate-400 mb-1">Transfer Type</label>
-                                        <select class="w-full bg-navy-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-500">
-                                            <option>Wire Transfer (Domestic/Global)</option>
-                                            <option>Internal Liquidity Move</option>
-                                            <option>Vault Deposit</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="w-full gold-button-gradient text-navy-950 font-bold py-2.5 rounded-lg text-sm transition-all mt-2">
-                                        Authorize Transfer
-                                    </button>
-                                </form>
-                                <div id="transfer-status" class="hidden mt-3 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs text-center">
-                                    Transfer Request Encrypted & Sent Successfully!
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Recent Transactions -->
-                        <div class="lg:col-span-2 bg-navy-950 p-6 rounded-2xl border border-slate-800">
-                            <div class="flex justify-between items-center mb-6">
-                                <h4 class="text-base font-bold text-white flex items-center gap-2">
-                                    <i data-lucide="activity" class="w-4 h-4 text-gold-400"></i> Recent Activity
-                                </h4>
-                                <button class="text-xs text-gold-400 hover:underline">View All</button>
-                            </div>
-
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-900/60 transition-colors border border-transparent hover:border-slate-800">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                                            <i data-lucide="arrow-down-left" class="w-5 h-5"></i>
-                                        </div>
-                                        <div>
-                                            <div class="text-sm font-semibold text-white">Dividend Yield Credit</div>
-                                            <div class="text-xs text-slate-500">Today, 09:42 AM • Global ETF Fund</div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-sm font-bold text-emerald-400">+$14,250.00</div>
-                                        <div class="text-[10px] text-slate-500">Completed</div>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-900/60 transition-colors border border-transparent hover:border-slate-800">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center">
-                                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                                        </div>
-                                        <div>
-                                            <div class="text-sm font-semibold text-white">Aviation Charter Services</div>
-                                            <div class="text-xs text-slate-500">Yesterday • Card ending in 8892</div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-sm font-bold text-white">-$18,400.00</div>
-                                        <div class="text-[10px] text-slate-500">Cleared</div>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-900/60 transition-colors border border-transparent hover:border-slate-800">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-400 flex items-center justify-center">
-                                            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
-                                        </div>
-                                        <div>
-                                            <div class="text-sm font-semibold text-white">Automated Portfolio Rebalance</div>
-                                            <div class="text-xs text-slate-500">Oct 28, 2026 • AI Wealth Engine</div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-sm font-bold text-slate-300">$120,000.00</div>
-                                        <div class="text-[10px] text-slate-500">Internal</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Private Equity & Venture Direct</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Direct co-investment opportunities in late-stage unicorn tech startups, infrastructure projects, and commercial real estate.
+                    </p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="file-text" class="w-7 h-7"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Global Tax Optimization</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Fiduciary advisory on international tax structures, dual citizenship programs, and sovereign tax compliance.
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Client Testimonial / Quote Section -->
-    <section class="py-20 bg-navy-900/40 border-t border-slate-800">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <i data-lucide="quote" class="w-12 h-12 text-gold-500/30 mx-auto mb-6"></i>
-            <blockquote class="text-2xl sm:text-3xl font-serif text-slate-200 italic leading-relaxed">
-                "DANIELWEALTH transformed how our family manages multi-generational assets. Their private digital platform matches the excellence of their personal advisors."
-            </blockquote>
-            <div class="mt-6 font-semibold text-gold-400">Elena Rostova</div>
-            <div class="text-xs text-slate-500 uppercase tracking-widest mt-1">Managing Director, Rostova Global Capital</div>
+            <!-- Tab Content 3 -->
+            <div id="tab-crypto" class="tab-content hidden grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="cpu" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Institutional Crypto Custody</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Institutional-grade cold storage for Bitcoin, Ethereum, and digital assets with $500M Lloyd’s of London insurance coverage.
+                    </p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="line-chart" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Algorithmic Quant Trading</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        AI-driven arbitrage and market-neutral quantitative strategies designed to generate alpha regardless of broader market sentiment.
+                    </p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 hover:border-gold-500/40 transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                        <i data-lucide="repeat" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Instant Token Settlement</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Convert digital assets to fiat and execute instant global wire transfers 24/7/365 with automated compliance checks.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -454,99 +630,123 @@
     <footer class="bg-navy-950 border-t border-slate-800/80 pt-16 pb-12 text-slate-400 text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-                <!-- Brand Column -->
                 <div class="col-span-2">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 rounded-lg bg-gold-500 flex items-center justify-center text-navy-950 font-bold text-lg">
+                        <div class="w-9 h-9 rounded-lg bg-gold-500 flex items-center justify-center text-navy-950 font-black text-lg">
                             DW
                         </div>
-                        <span class="font-bold text-lg text-white font-serif">DANIEL<span class="gold-gradient-text">WEALTH</span></span>
+                        <span class="font-bold text-xl text-white font-serif">DANIEL<span class="gold-gradient-text">WEALTH</span></span>
                     </div>
                     <p class="text-xs text-slate-500 max-w-sm mb-4 leading-relaxed">
-                        Redefining modern wealth stewardship. Providing secure, sophisticated, and seamless financial architecture to individuals and institutions worldwide.
+                        Founded by Daniel Bestine. Providing unparalleled financial architecture, private banking, and fiduciary excellence to discerning global clients.
                     </p>
                     <div class="text-xs text-slate-600">
                         © 2026 DANIELWEALTH Financial Inc. All rights reserved.
                     </div>
                 </div>
 
-                <!-- Navigation Columns -->
                 <div>
                     <h5 class="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Solutions</h5>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" class="hover:text-gold-400 transition-colors">Private Banking</a></li>
                         <li><a href="#" class="hover:text-gold-400 transition-colors">Wealth Planning</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Smart Investment</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Global Vaults</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Digital Vaults</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h5 class="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Company</h5>
+                    <h5 class="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Leadership</h5>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">About Us</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Leadership</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Careers</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Press & Media</a></li>
+                        <li><a href="#leadership" class="hover:text-gold-400 transition-colors">Daniel Bestine (CEO)</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Executive Board</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Press Office</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h5 class="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Legal & Safety</h5>
+                    <h5 class="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Legal</h5>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" class="hover:text-gold-400 transition-colors">Privacy Policy</a></li>
                         <li><a href="#" class="hover:text-gold-400 transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Security Overview</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Regulatory Compliance</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Security Disclosure</a></li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Fictional Disclaimer Footer Note -->
             <div class="pt-8 border-t border-slate-900 text-center text-[11px] text-slate-600 leading-relaxed">
-                <p><strong>Disclaimer:</strong> This website is a fictional concept created solely for demonstration purposes under the brand name "DANIELWEALTH". It does not offer real financial services, take deposits, or manage assets. Do not submit sensitive financial or personal information.</p>
+                <p><strong>Disclaimer:</strong> DANIELWEALTH is a fictional concept created for web application demonstration purposes. It does not provide real financial, banking, or investment advice. Do not submit actual personal financial data.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Modal for Mock Secure Login -->
-    <div id="login-modal" class="fixed inset-0 bg-navy-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-navy-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
-            <button onclick="toggleModal('login-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
+    <!-- Consultation Modal -->
+    <div id="consult-modal" class="fixed inset-0 bg-navy-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-navy-900 border border-gold-500/40 rounded-3xl w-full max-w-lg p-8 relative shadow-2xl">
+            <button onclick="toggleModal('consult-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
+                <i data-lucide="x" class="w-6 h-6"></i>
             </button>
-            
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/20 text-gold-400 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 text-gold-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="user-check" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white font-serif">Schedule Private Consultation</h3>
+                <p class="text-xs text-slate-400 mt-1">Direct advisory inquiry with Daniel Bestine's executive team.</p>
+            </div>
+            <form onsubmit="handleFormSubmit(event, 'consult-status')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+                    <input type="text" required placeholder="e.g. Lord Edward Sterling" class="w-full bg-navy-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" required placeholder="sterling@holding.com" class="w-full bg-navy-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Estimated Investable Liquidity</label>
+                    <select class="w-full bg-navy-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
+                        <option>$1,000,000 - $5,000,000 USD</option>
+                        <option>$5,000,000 - $25,000,000 USD</option>
+                        <option>$25,000,000+ USD (Institutional)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full gold-button text-navy-950 font-bold py-3.5 rounded-xl text-sm shadow-xl shadow-gold-500/20 mt-2">
+                    Submit Advisory Request
+                </button>
+            </form>
+            <div id="consult-status" class="hidden mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs text-center font-semibold">
+                Inquiry received! A senior partner will contact you shortly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-navy-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-navy-900 border border-slate-700 rounded-3xl w-full max-w-md p-8 relative shadow-2xl">
+            <button onclick="toggleModal('login-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-gold-500/10 border border-gold-500/30 text-gold-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
                     <i data-lucide="lock" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-xl font-bold text-white font-serif">Client Portal Login</h3>
-                <p class="text-xs text-slate-400 mt-1">Enter your DANIELWEALTH private credentials</p>
+                <h3 class="text-2xl font-bold text-white font-serif">Secure Client Vault</h3>
+                <p class="text-xs text-slate-400 mt-1">Authenticate your DANIELWEALTH key</p>
             </div>
-
-            <form onsubmit="handleLogin(event)" class="space-y-4">
+            <form onsubmit="handleFormSubmit(event, 'login-status')" class="space-y-4">
                 <div>
-                    <label class="block text-xs text-slate-300 mb-1">Client ID / Username</label>
-                    <input type="text" required placeholder="DW-Client-ID" class="w-full bg-navy-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Client ID</label>
+                    <input type="text" required placeholder="DW-9812-EX" class="w-full bg-navy-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
                 </div>
                 <div>
-                    <label class="block text-xs text-slate-300 mb-1">Passcode / Token</label>
-                    <input type="password" required placeholder="••••••••••••" class="w-full bg-navy-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Passcode</label>
+                    <input type="password" required placeholder="••••••••••••" class="w-full bg-navy-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500">
                 </div>
-                <div class="flex items-center justify-between text-xs text-slate-400">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" class="rounded bg-navy-950 border-slate-700 text-gold-500 focus:ring-0">
-                        <span>Remember Hardware ID</span>
-                    </label>
-                    <a href="#" class="text-gold-400 hover:underline">Forgot Key?</a>
-                </div>
-                <button type="submit" class="w-full gold-button-gradient text-navy-950 font-bold py-3 rounded-lg text-sm shadow-lg shadow-gold-500/20">
+                <button type="submit" class="w-full gold-button text-navy-950 font-bold py-3.5 rounded-xl text-sm shadow-xl shadow-gold-500/20">
                     Authenticate Session
                 </button>
             </form>
-            
-            <div id="login-feedback" class="hidden mt-4 p-3 rounded bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs text-center">
-                Demo Mode: Login sequence initialized! (Mock behavior)
+            <div id="login-status" class="hidden mt-4 p-3 rounded-xl bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs text-center font-semibold">
+                Demo authentication initialized!
             </div>
         </div>
     </div>
@@ -556,40 +756,124 @@
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
         // Toggle Modal helper
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.toggle('hidden');
         }
 
-        // Mock Transfer Event
-        function handleTransfer(e) {
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        document.getElementById('menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // Hide/Unhide Balance on Card
+        let isBalanceHidden = false;
+        function toggleBalanceVisibility() {
+            const balanceEl = document.getElementById('card-balance-display');
+            const textEl = document.getElementById('balance-toggle-text');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            isBalanceHidden = !isBalanceHidden;
+            if (isBalanceHidden) {
+                balanceEl.innerHTML = '•••••••••••• <span class="text-xs font-normal text-emeraldAccent">USD</span>';
+                textEl.innerText = 'Show Balance';
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                balanceEl.innerHTML = '$8,490,250.00 <span class="text-xs font-normal text-emeraldAccent">USD</span>';
+                textEl.innerText = 'Hide Balance';
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-gold-500', 'text-navy-950', 'shadow-lg');
+                btn.classList.add('bg-navy-900', 'text-slate-300', 'border', 'border-slate-800');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('bg-gold-500', 'text-navy-950', 'shadow-lg');
+            activeBtn.classList.remove('bg-navy-900', 'text-slate-300', 'border', 'border-slate-800');
+        }
+
+        // Animated Counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const speed = target / 30;
+                const updateCount = () => {
+                    count += speed;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count);
+                        setTimeout(updateCount, 40);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+        window.addEventListener('DOMContentLoaded', animateCounters);
+
+        // Interactive Wealth Calculator Engine
+        const initialInput = document.getElementById('calc-initial');
+        const monthlyInput = document.getElementById('calc-monthly');
+        const yearsInput = document.getElementById('calc-years');
+        const strategyInput = document.getElementById('calc-strategy');
+
+        function updateCalculator() {
+            const P = parseFloat(initialInput.value);
+            const PMT = parseFloat(monthlyInput.value);
+            const t = parseFloat(yearsInput.value);
+            const r = parseFloat(strategyInput.value);
+
+            document.getElementById('calc-initial-val').innerText = '$' + P.toLocaleString();
+            document.getElementById('calc-monthly-val').innerText = '$' + PMT.toLocaleString();
+            document.getElementById('calc-years-val').innerText = t + ' Years';
+
+            // Compound interest calculation formula
+            const n = 12;
+            const compoundInitial = P * Math.pow(1 + r / n, n * t);
+            const compoundMonthly = PMT * ((Math.pow(1 + r / n, n * t) - 1) / (r / n));
+            const totalWealth = compoundInitial + compoundMonthly;
+            const totalContributed = P + (PMT * 12 * t);
+            const totalInterest = totalWealth - totalContributed;
+
+            document.getElementById('calc-total-result').innerText = '$' + Math.round(totalWealth).toLocaleString();
+            document.getElementById('calc-contributed').innerText = '$' + Math.round(totalContributed).toLocaleString();
+            document.getElementById('calc-interest').innerText = '$' + Math.round(totalInterest).toLocaleString();
+
+            // Dynamic SVG path adjustment
+            const chartArea = document.getElementById('chart-area');
+            const chartLine = document.getElementById('chart-line');
+            const curveFactor = Math.min(180, 190 - (t * 4));
+            chartArea.setAttribute('d', `M0,200 L0,170 Q250,${curveFactor} 500,20 L500,200 Z`);
+            chartLine.setAttribute('d', `M0,170 Q250,${curveFactor} 500,20`);
+        }
+
+        [initialInput, monthlyInput, yearsInput, strategyInput].forEach(elem => {
+            elem.addEventListener('input', updateCalculator);
+        });
+        updateCalculator();
+
+        // Handle Modal Submit
+        function handleFormSubmit(e, statusId) {
             e.preventDefault();
-            const status = document.getElementById('transfer-status');
+            const status = document.getElementById(statusId);
             status.classList.remove('hidden');
             setTimeout(() => {
                 status.classList.add('hidden');
                 e.target.reset();
             }, 3000);
-        }
-
-        // Mock Login Event
-        function handleLogin(e) {
-            e.preventDefault();
-            const feedback = document.getElementById('login-feedback');
-            feedback.classList.remove('hidden');
-            setTimeout(() => {
-                feedback.classList.add('hidden');
-                toggleModal('login-modal');
-            }, 2000);
         }
     </script>
 </body>
